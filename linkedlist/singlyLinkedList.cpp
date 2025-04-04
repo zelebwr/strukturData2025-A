@@ -43,4 +43,26 @@ class singlyLinkedList {
         // assign newNode to next of last Node
         temp->next = newNode; 
     }
+
+    void insertPosition(string data, int position) {
+        // error check position 
+        if (position < 1) {
+            cout << "Invalid position" << endl
+                 << "Position must be greater than 0" << endl;
+            return;
+        }
+
+        // if position is 1, insert at beginning
+        if (position == 1) {
+            insertBeginning(data);
+            return;
+        }
+        
+        // make new Node, assign data to it
+        Node* newNode = new Node();
+        newNode->data = data;
+
+        // traverse to the position
+        
+    }
 };
