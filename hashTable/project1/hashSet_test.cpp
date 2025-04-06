@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <fstream>
 using namespace std;
 
 class Node {
@@ -110,5 +111,17 @@ class hashSet {
 };
 
 int main() {
-    
+    // local variables
+    class skylineSet; 
+    ifstream iFile("./ind_500_2_product.csv");
+        // check if the file opened successfully
+        if (!iFile) { 
+            cout << "Error opening file" << endl;
+            return 1;
+        }
+    string line = "";
+
+    getline(iFile, line);
+    getline(iFile, line);
+    cout << line << endl;
 }
