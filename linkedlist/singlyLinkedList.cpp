@@ -12,11 +12,33 @@ class Node {
 
 class singlyLinkedList {
     private: 
+        int length;
         Node* head; 
     
     public:
         // default constructor
         singlyLinkedList() : head(NULL) {}; 
+
+        void setLength(){
+            if (!head) { // if there isn't any existing list
+                cout << "There is no list yet, therefore list's length = 0" << endl;
+                length = 0; // declare list's length = 0
+                return;
+            }
+            
+            Node* temp = head;
+            length = 1;
+            // if there is any existing list
+            while (temp->next) { // traverse to the end of list
+                temp = temp->next;
+                length++; // increment length each interation
+            }            
+            return;
+        }
+
+        int getLength(){
+            return length;
+        }
 
         void insertFirst(int value) {
             Node* newNode = new Node(value); 
@@ -55,6 +77,8 @@ class singlyLinkedList {
             Node* newNode = new Node(value);
             if (!head) { // if there isn't any existing list
                 cout << "There isn't any existing list yet, position in list isn't available" << endl; // error message
+                cout << "Therefore newNode is to be put at first" << endl; 
+                head = newNode; 
                 return;
             }
 
@@ -68,8 +92,9 @@ class singlyLinkedList {
                 curPos++;
             }
             
-            // check if (pos - 1) = NULL, then insertLast
+            // check if Node at pos = NULL, then insertLast
             if (!current->next && curPos == (pos - 1)) {
+                cout << "Since position has exceeded list's length, then it will be inserted at last position" << endl;
                 insertLast(value);
                 return;
             }
@@ -79,5 +104,60 @@ class singlyLinkedList {
             current->next = newNode; // current->next points newNode
             // resulted into newNode inserted after current and before current->next
             return;
+        }
+
+        void deleteFirst(){
+            if (!head) { // if there is any existing list
+                cout << "There isn't any existing list, nothing to delete" << endl; 
+                return;
+            }
+
+            Node* toDelete = head;
+            head = head->next; // move head to the next pointer
+            free(toDelete); // delete toDelete node, which was the first Node in list
+        }
+
+        void deleteLast() {
+            if (!head) { // if there is any existing list
+                cout << "There isn't any existing list, nothing to delete" << endl;
+                return; 
+            }
+
+            Node* current = head; 
+            while (current->next->next) current = current->next; // traverse to the end of list
+
+            Node* toDelete = current->next; // declare toDelete Node
+            current->next = NULL;  // change pointer to NULL 
+            free(toDelete);  // delete toDelete
+            return;
+        }
+
+        void deletePosition(int pos) {
+            if (!head) { //if there isn't any existing list
+                cout << "There isn't any existing list, nothing to delete" << endl; 
+                return;
+            }
+
+            // if there is any existing list
+            Node* current = head;
+            int curPos = 1;
+            while (current->next && curPos <= (pos - 1)) {
+                current = current->next;
+                curPos++;
+            }
+
+            // if Node at pos  = NULL
+            if (!current->next && curPos == (pos - 1)) { 
+                cout << "Position exceed the list's length" << endl
+                     << "Therefore, nothing to be deleted" << endl;
+                return;
+            }
+
+            // TODO: haven't finished this
+            Node* toDelete = current->next; // declare toDelete Node 
+            current->next = current->next->next; // change current->next to point 
+            free(toDelete); 
+            return
+
         }
 };
