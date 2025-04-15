@@ -1,68 +1,83 @@
+// singly linked list c++
+
 #include <iostream> 
-#include <string> 
 using namespace std; 
 
 class Node {
-    public:
-    string data;
-    Node* next;
+    public: 
+        int data; 
+        Node* next; 
+        Node(int value) : data(value), next(NULL) {}; 
 };
 
 class singlyLinkedList {
-    Node* head;
+    private: 
+        Node* head; 
+    
+    public:
+        // default constructor
+        singlyLinkedList() : head(NULL) {}; 
 
-    public: 
-    singlyLinkedList() : head(NULL) {}
+        void insertFirst(int value) {
+            Node* newNode = new Node(value); 
+            if (!head) { // if there isn't any existing list
+                head = newNode; // declare newNode as head
+                return; 
+            }
 
-    void insertBeginning(string data) {
-        // make new Node, assign data to it, and make it head
-        Node* newNode = new Node();
-        newNode->data = data;
-        newNode->next = head; // assign current head to "next" of newNode
-        head = newNode;
-    }
-
-    void insertEnd(string data) {
-        // make new Node, assign data to it
-        Node* newNode = new Node();
-        newNode->data = data;
-        newNode->next = NULL; // assign NULL to "next" of newNode
-
-        // if list is empty, make newNode head
-        if (!head) {
-            head = newNode;
+            // if there is any existing list 
+            newNode->next = head; // change next pointer to head
+            head = newNode; // declare newNode as head
             return;
         }
 
-        // traverse to the end of the list
-        Node* temp = head; 
-        while (temp->next) {
-            temp = temp->next; 
-        }
-
-        // assign newNode to next of last Node
-        temp->next = newNode; 
-    }
-
-    void insertPosition(string data, int position) {
-        // error check position 
-        if (position < 1) {
-            cout << "Invalid position" << endl
-                 << "Position must be greater than 0" << endl;
-            return;
-        }
-
-        // if position is 1, insert at beginning
-        if (position == 1) {
-            insertBeginning(data);
+        void insertLast(int value) {
+            Node* newNode = new Node(value); 
+            if (!head) { // if there isn't any existing list
+                head = newNode; // declare newNode as head
+                return;
+            }
+            
+            // if there is any existing list 
+            Node* current = head; // make new Node to track current Node 
+            
+            // traverse to the end of list using current Node
+            while (current->next) { // if next pointer isn't NULL
+                current = current->next; // traverse 
+            }
+            
+            // set current's next pointer to point to newNode
+            current->next = newNode;
             return;
         }
         
-        // make new Node, assign data to it
-        Node* newNode = new Node();
-        newNode->data = data;
+        void insertPosition(int value, int pos) {
+            Node* newNode = new Node(value);
+            if (!head) { // if there isn't any existing list
+                cout << "There isn't any existing list yet, position in list isn't available" << endl; // error message
+                return;
+            }
 
-        // traverse to the position
-        
-    }
+            // if there is any existing list
+            Node* current = head; // make new Node to track current Node
+            int curPos = 1; // current position to track position
+
+            // traverse to the position in list using current Node
+            while (current->next && curPos <= (pos - 1)) { // if current->next isn't NULL and position less equal position
+                current = current-> next;
+                curPos++;
+            }
+            
+            // check if (pos - 1) = NULL, then insertLast
+            if (!current->next && curPos == (pos - 1)) {
+                insertLast(value);
+                return;
+            }
+
+            // if (pos - 1) isn't NULL
+            newNode->next = current->next; // newNode->next points to current->next
+            current->next = newNode; // current->next points newNode
+            // resulted into newNode inserted after current and before current->next
+            return;
+        }
 };
