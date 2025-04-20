@@ -1,0 +1,154 @@
+struct Node {
+    int data;
+    Node* next;
+};
+
+void sortedInsert(Node** sorted, Node* newNode) {
+    if (*sorted == nullptr || (*sorted)->data >= newNode->data) {
+        Node* temp = *sorted;
+        if (*sorted != nullptr) {
+            while (temp->next != *sorted) temp = temp->next;
+            temp->next = newNode;
+        } else {
+            newNode->next = newNode; // first node points to itself
+        }
+        newNode->next = *sorted;
+        *sorted = newNode;
+    } else {
+        Node* current = *sorted;
+        while (current->next != *sorted && current->next->data < newNode->data) {
+            current = current->next;
+        }
+        newNode->next = current->next;
+        current->next = newNode;
+    }
+}
+
+void insertionSort(Node** head_ref) {
+    if (*head_ref == nullptr || (*head_ref)->next == *head_ref) return;
+
+    Node* sorted = nullptr;
+    Node* current = *head_ref;
+    Node* head = *head_ref;
+
+    do {
+        Node* next = current->next;
+        current->next = current;  // isolate node
+        sortedInsert(&sorted, current);
+        current = next;
+    } while (current != head);
+
+    *head_ref = sorted;
+}
+
+
+struct DNode {
+    int data;
+    DNode* next;
+    DNode* prev;
+};
+
+
+void insertionSort(DNode** head_ref) {
+    if (*head_ref == nullptr || (*head_ref)->next == *head_ref) return;
+
+    DNode* current = (*head_ref)->next;
+    while (current != *head_ref) {
+        DNode* next = current->next;
+        DNode* temp = current->prev;
+
+        while (temp != *head_ref && temp->data > current->data) {
+            temp = temp->prev;
+        }
+
+        // Remove current
+        current->prev->next = current->next;
+        current->next->prev = current->prev;
+
+        // Insert after temp
+        if (temp->data <= current->data) {
+            current->next = temp->next;
+            current->prev = temp;
+            temp->next->prev = current;
+            temp->next = current;
+        } else {
+            current->next = *head_ref;
+            current->prev = (*head_ref)->prev;
+            (*head_ref)->prev->next = current;
+            (*head_ref)->prev = current;
+            *head_ref = current;  // new head
+        }
+
+        current = next;
+    }
+
+    // Ensure circular integrity
+    DNode* tail = *head_ref;
+    while (tail->next != *head_ref)
+        tail = tail->next;
+    (*head_ref)->prev = tail;
+    tail->next = *head_ref;
+}
+
+
+
+
+// csll 
+struct Node {
+    int data;
+    Node* next;
+};
+
+void bubbleSort(Node* head) {
+    if (!head || head->next == head) return;
+
+    bool swapped;
+    Node* ptr1;
+    Node* lptr = nullptr;
+
+    do {
+        swapped = false;
+        ptr1 = head;
+
+        while (ptr1->next != lptr && ptr1->next != head) {
+            if (ptr1->data > ptr1->next->data) {
+                std::swap(ptr1->data, ptr1->next->data);
+                swapped = true;
+            }
+            ptr1 = ptr1->next;
+        }
+        lptr = ptr1;
+    } while (swapped);
+}
+
+
+// dcll
+
+struct DNode {
+    int data;
+    DNode* next;
+    DNode* prev;
+};
+
+
+void bubbleSort(DNode* head) {
+    if (!head || head->next == head) return;
+
+    bool swapped;
+    DNode* ptr1;
+    DNode* lptr = nullptr;
+
+    do {
+        swapped = false;
+        ptr1 = head;
+
+        while (ptr1->next != lptr && ptr1->next != head) {
+            if (ptr1->data > ptr1->next->data) {
+                std::swap(ptr1->data, ptr1->next->data);
+                swapped = true;
+            }
+            ptr1 = ptr1->next;
+        }
+        lptr = ptr1;
+    } while (swapped);
+}

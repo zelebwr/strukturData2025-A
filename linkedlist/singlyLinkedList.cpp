@@ -40,6 +40,23 @@ class singlyLinkedList {
             return length;
         }
 
+        void printList() {
+            if (!head) { // if there isn't any existing list
+                cout << "There isn't any existing list, nothing to print" << endl; 
+                return;
+            }
+
+            Node* current = head; // make new Node to track current Node
+            // traverse to the end of list using current Node
+            while (current->next) { // if next pointer isn't NULL
+                cout << current->data << " -> "; // print current's data
+                current = current->next; // traverse 
+            }
+            
+            cout << current->data << endl; // print last node's data
+            return;
+        }
+
         void insertFirst(int value) {
             Node* newNode = new Node(value); 
             if (!head) { // if there isn't any existing list
@@ -87,14 +104,14 @@ class singlyLinkedList {
             int curPos = 1; // current position to track position
 
             // traverse to the position in list using current Node
-            while (current->next && curPos <=\ (pos - 1)) { // if current->next isn't NULL and position less equal position
+            while (current->next && curPos < (pos - 1)) { // if current->next isn't NULL and position less equal position
                 current = current-> next;
                 curPos++;
             }
             
             // check if Node at pos = NULL, then insertLast
             if (!current->next && curPos == (pos - 1)) {
-                cout << "Since position has exceeded list's length, then it will be inserted at last position" << endl;
+                cout << "Since position has exceeded/at the end of list's length, then it will be inserted at last position" << endl;
                 insertLast(value);
                 return;
             }
@@ -114,7 +131,7 @@ class singlyLinkedList {
 
             Node* toDelete = head;
             head = head->next; // move head to the next pointer
-            free(toDelete); // delete toDelete node, which was the first Node in list
+            delete toDelete; // delete toDelete node, which was the first Node in list
         }
 
         void deleteLast() {
@@ -122,13 +139,18 @@ class singlyLinkedList {
                 cout << "There isn't any existing list, nothing to delete" << endl;
                 return; 
             }
+            
+            if (!head->next) { // if there is only one Node in list
+                deleteFirst(); // call deleteFirst function
+                return;
+            }
 
             Node* current = head; 
             while (current->next->next) current = current->next; // traverse to the end of list
 
             Node* toDelete = current->next; // declare toDelete Node
             current->next = NULL;  // change pointer to NULL 
-            free(toDelete);  // delete toDelete
+            delete toDelete;  // delete toDelete
             return;
         }
 
@@ -137,6 +159,11 @@ class singlyLinkedList {
                 cout << "There isn't any existing list, nothing to delete" << endl; 
                 return;
             }
+
+            /* if (pos < 1 || pos > length) { // if position < 1 or position > length
+                cout << "Position out of range" << endl; 
+                return;
+            } */
 
             if (pos == 1) { // if position = 1
                 deleteFirst(); // call deleteFirst function
@@ -162,9 +189,61 @@ class singlyLinkedList {
             // if Node at pos isn't NULL
             Node* toDelete = current->next; // declare toDelete Node 
             current->next = current->next->next; // change current->next to point 
-            free(toDelete); 
+            delete toDelete; 
             return;
         }
 
-        
+        void searchData (int value) {
+            if (!head) { // if there isn't any existing list
+                cout << "There isn't any existing list, nothing to search" << endl; 
+                return;
+            }
+
+            Node* current = head; // make new Node to track current Node
+            int curPos = 1; // current position to track position
+            
+            while (current) { // traverse to the end of list
+                if (current->data == value) { // if current's data = value
+                    cout << "Found \"" << value << "\" in the list in node " << curPos << endl; 
+                    return;
+                }
+                current = current->next; // traverse
+                curPos++; // increment position 
+            }
+
+            cout << "There isn't any \"" << value << "\" in the list" << endl;
+            return;
+        }
+
+        void sortData(int asOrDes) {
+            if (!head) { // if there isn't any existing list
+                cout << "There isn't any existing list, nothing to sort" << endl; 
+                return;
+            }
+
+            Node* current = head; // make new Node to track current Node
+
+            bool swapped; 
+
+            do { 
+                swapped = false; // set swapped to false
+                current = head; // set current to head
+
+                while (current->next) { // traverse to the end of list
+                    if (current->data > current->next->data && asOrDes == 1) { // if current's data > current->next's data and asOrDes = 1 (ascending)
+                        int temp = current->data; // swap current's data with current->next's data
+                        current->data = current->next->data;
+                        current->next->data = temp;
+                        swapped = true; // set swapped to true
+                    } else if (current->data < current->next->data && asOrDes == 0) { // if current's data < current->next's data and asOrDes = 0 (descending)
+                        int temp = current->data; // swap current's data with current->next's data
+                        current->data = current->next->data;
+                        current->next->data = temp;
+                        swapped = true; // set swapped to true
+                    }
+                    current = current->next; // traverse
+                }
+            } while (swapped); // repeat until no swaps are made
+            return;
+        }
 };
