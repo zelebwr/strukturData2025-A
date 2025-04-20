@@ -87,7 +87,7 @@ class singlyLinkedList {
             int curPos = 1; // current position to track position
 
             // traverse to the position in list using current Node
-            while (current->next && curPos <= (pos - 1)) { // if current->next isn't NULL and position less equal position
+            while (current->next && curPos <=\ (pos - 1)) { // if current->next isn't NULL and position less equal position
                 current = current-> next;
                 curPos++;
             }
@@ -138,26 +138,33 @@ class singlyLinkedList {
                 return;
             }
 
+            if (pos == 1) { // if position = 1
+                deleteFirst(); // call deleteFirst function
+                return;
+            }
+
             // if there is any existing list
             Node* current = head;
             int curPos = 1;
-            while (current->next && curPos <= (pos - 1)) {
+            //  traverse to the (pos - 1) using current Node
+            while (current->next && curPos < (pos - 1)) {
                 current = current->next;
                 curPos++;
             }
 
-            // if Node at pos  = NULL
+            // if Node at pos = NULL
             if (!current->next && curPos == (pos - 1)) { 
                 cout << "Position exceed the list's length" << endl
                      << "Therefore, nothing to be deleted" << endl;
                 return;
             }
 
-            // TODO: haven't finished this
+            // if Node at pos isn't NULL
             Node* toDelete = current->next; // declare toDelete Node 
             current->next = current->next->next; // change current->next to point 
             free(toDelete); 
-            return
-
+            return;
         }
+
+        
 };
