@@ -27,7 +27,7 @@ private:
 
     void updateHeight(Node* node) {
         if(node) {
-            node->height = 1 + std::max(height(node->left), height(node->right));
+            node->height = 1 + max(height(node->left), height(node->right));
         }
     }
 
@@ -135,7 +135,7 @@ private:
     void inorder(Node* node) {
         if(node) {
             inorder(node->left);
-            std::cout << node->key << " ";
+            cout << node->key << " ";
             inorder(node->right);
         }
     }
@@ -147,10 +147,10 @@ private:
         
         printTree(node->right, space);
         
-        std::cout << std::endl;
+        cout << endl;
         for(int i = gap; i < space; i++)
-            std::cout << " ";
-        std::cout << node->key << "\n";
+            cout << " ";
+        cout << node->key << "\n";
         
         printTree(node->left, space);
     }
@@ -167,32 +167,55 @@ public:
     }
 
     void display() {
-        std::cout << "In-order traversal: ";
+        cout << "In-order traversal: ";
         inorder(root);
-        std::cout << "\nTree structure:\n";
+        cout << "\nTree structure:\n";
         printTree(root);
-        std::cout << std::endl;
+        cout << endl;
     }
 };
 
 int main() {
     AVLTree avl;
 
-    // Insert values
-    avl.insert(10);
-    avl.insert(20);
-    avl.insert(30);
-    avl.insert(40);
-    avl.insert(50);
-    avl.insert(25);
+    while (1) {
+        cout << endl
+            << "======================" << endl
+            << "      TREE MAKER      " << endl
+            << "======================" << endl << endl
+            << "1. Input value"  << endl
+            << "2. Remove value" << endl
+            << "3. Display tree" << endl
+            << "4. Exit" << endl << endl
+            << "Insert your option here: ";
 
-    std::cout << "After insertions:\n";
-    avl.display();
+        int input;
+        cin >> input; 
 
-    // Delete a node
-    avl.remove(40);
-    std::cout << "\nAfter deleting 40:\n";
-    avl.display();
-
+        switch (input){
+            case 1:
+                cout << endl << "Input your Wanted to Input Value here: "; 
+                cin >> input;
+                avl.insert(input);
+                break;
+            case 2: 
+                cout << endl << "Input your Wanted to Remove Value here: ";
+                cin >> input;
+                avl.remove(input);
+                break;
+            case 3: 
+                cout << endl << "Your tree is below: "; 
+                avl.display();
+                break;
+            case 4: 
+                cout << endl << "Hope you had fun. Visit again next time" << endl;
+                return 0;
+                break;
+            default:
+                cout << endl << "It seems like your option isn\'t available." << endl
+                    << "Please try again." << endl;
+                break;
+        }
+    }
     return 0;
 }
