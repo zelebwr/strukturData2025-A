@@ -25,11 +25,11 @@ class AVLTree {
             return node ? height(node->left) - height(node->right) : 0;
         }
 
-        void updateHeight(Node* node) {
-            if(node) {
-                node->height = 1 + max(height(node->left), height(node->right));
-            }
+    void updateHeight(Node* node) {
+        if(node) {
+            node->height = 1 + std::max(height(node->left), height(node->right));
         }
+    }
 
         Node* rightRotate(Node* y) {
             Node* x = y->left;
@@ -132,28 +132,28 @@ class AVLTree {
             return balance(node);
         }
 
-        void inorder(Node* node) {
-            if(node) {
-                inorder(node->left);
-                cout << node->key << " ";
-                inorder(node->right);
-            }
+    void inorder(Node* node) {
+        if(node) {
+            inorder(node->left);
+            std::cout << node->key << " ";
+            inorder(node->right);
         }
+    }
 
-        void printTree(Node* node, int space = 0, int gap = 5) {
-            if(!node) return;
-            
-            space += gap;
-            
-            printTree(node->right, space);
-            
-            cout << endl;
-            for(int i = gap; i < space; i++)
-                cout << " ";
-            cout << node->key << "\n";
-            
-            printTree(node->left, space);
-        }
+    void printTree(Node* node, int space = 0, int gap = 5) {
+        if(!node) return;
+        
+        space += gap;
+        
+        printTree(node->right, space);
+        
+        std::cout << std::endl;
+        for(int i = gap; i < space; i++)
+            std::cout << " ";
+        std::cout << node->key << "\n";
+        
+        printTree(node->left, space);
+    }
 
     public:
         AVLTree() : root(nullptr) {}
@@ -166,45 +166,32 @@ class AVLTree {
             root = remove(root, key);
         }
 
-        void display() {
-            cout << "In-order traversal: ";
-            inorder(root);
-            cout << "\nTree structure:\n";
-            printTree(root);
-            cout << endl;
-        }
+    void display() {
+        std::cout << "In-order traversal: ";
+        inorder(root);
+        std::cout << "\nTree structure:\n";
+        printTree(root);
+        std::cout << std::endl;
+    }
 };
 
 int main() {
     AVLTree avl;
 
     // Insert values
-    /* avl.insert(10);
-    avl.insert(20);
-    avl.insert(30);
-    avl.insert(40);
-    avl.insert(50);
-    avl.insert(25); */
-
     avl.insert(10);
-    avl.insert(15);
     avl.insert(20);
-    avl.insert(25);
     avl.insert(30);
-    avl.insert(35);
     avl.insert(40);
-    avl.insert(45);
     avl.insert(50);
-    avl.insert(55);
-    avl.insert(60);
-    avl.insert(65);
+    avl.insert(25);
 
-    cout << "After insertions:\n";
+    std::cout << "After insertions:\n";
     avl.display();
 
     // Delete a node
     avl.remove(40);
-    cout << "\nAfter deleting 40:\n";
+    std::cout << "\nAfter deleting 40:\n";
     avl.display();
 
     return 0;
